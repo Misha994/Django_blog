@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Article</title>
+</head>
+<body>
+    {% if username%}
+        <li><a href="/logout/">Logout({{username}})</a></li>
+    {% else %}
+        <li><a href="/">Login</a></li>
+    {% endif%}
+
+    <a href="/article/">Main</a>
+    <h4>{{article.article_date}}</h4>
+    <h2>{{article.article_title}}</h2>
+    <p>{{article.article_text}}</p>
+    <hr>
+    <p>coments:</p>
+    {% for comment in comments %}
+        <p>{{comment.comments_text}}</p>
+    {% endfor %}
+    {%if username%}
+        <form action="/article/addcomment/{{article.id}}/" method="post">
+            {% csrf_token%}
+            {{form}}
+            <input type="submit" class="button" value="add comment">
+        </form>
+    {%endif%}
+</body>
+</html>

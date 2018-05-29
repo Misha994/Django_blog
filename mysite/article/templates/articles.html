@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>wall</title>
+</head>
+<body>
+    {% if username%}
+        <li><a href="/logout/">Logout({{username}})</a></li>
+    {% else %}
+        <li><a href="/">Login</a></li>
+    {% endif%}
+
+    <a href="/article/addarticle/">add article</a>
+    {%for article in articles %}
+        <h6>{{article.article_date}}</h6>
+        <h4><a href="/article/get/{{article.id}}/">{{article.article_title}}</a></h4>
+        <p>{{article.article_text}}</p>
+        <hr>
+    {% endfor %}
+</body>
+</html>

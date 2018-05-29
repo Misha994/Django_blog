@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    {% if username%}
+        <li><a href="/logout/">Logout({{username}})</a></li>
+    {% else %}
+        <li><a href="/">Login</a></li>
+    {% endif%}
+
+    <a href="/article/">Main</a>
+    {%if username%}
+        <form action="/article/addarticle/" method="post">
+            {% csrf_token%}
+            {{form}}
+            <input type="submit" class="button" value="add article">
+        </form>
+    {%endif%}
+</body>
+</html>
