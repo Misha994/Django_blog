@@ -11,25 +11,28 @@ from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from .tokens import account_activation_token
 
+
 def login(request):
-    args={}
+    args = {}
     args.update(csrf(request))
     if request.POST:
-        username = request.POST.get('username','')
-        password = request.POST.get('password','')
-        user = auth.authenticate(username=username,password=password)
+        username = request.POST.get('username', '')
+        password = request.POST.get('password', '')
+        user = auth.authenticate(username=username, password=password)
         if user is not None:
             auth.login(request, user)
             return redirect('/article/')
         else:
-            args['login_error']="user do not faund"
-            return render_to_response('login.html',args)
+            args['login_error'] = "user do not faund"
+            return render_to_response('login.html', args)
     else:
-        return render_to_response('login.html',args)
+        return render_to_response('login.html', args)
+
 
 def logout(request):
     auth.logout(request)
     return redirect('/')
+
 
 def register(request):
     if request.method == 'POST':
@@ -40,7 +43,7 @@ def register(request):
             user.save()
             current_site = get_current_site(request)
             message = render_to_string('acc_active_email.html', {
-                'user':user, 'domain':current_site.domain,
+                'user': user, 'domain': current_site.domain,
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                 'token': account_activation_token.make_token(user),
             })
@@ -52,6 +55,7 @@ def register(request):
     else:
         form = SignupForm()
     return render(request, 'register.html', {'form': form})
+
 
 def activate(request, uidb64, token):
     try:
